@@ -3,8 +3,6 @@ package Seqrise::Workflow;
 use strict;
 use Carp;
 use JSON;
-use lib "/clabeedata/usr/pell/git/CBWorkflow";
-use lib "/Users/mac/Projects/git/CBWorkflow";
 use Seqrise::File;
 use Seqrise::FileSet;
 use Seqrise::Tool;
@@ -86,45 +84,56 @@ sub new {
 
 
 sub GetTool {
-	my ($self, $name) = @_;
-	return $self->{tools}->{$name};
+	my ($self, $id) = @_;
+	return $self->{tools}->{$id};
 }
 
 sub GetToolRunner {
-	my ($self, $name) = @_;
-	return $self->{tools}->{$name}->GetRunner();
+	my ($self, $id) = @_;
+	return $self->{tools}->{$id}->GetRunner();
 }
 
 sub GetToolPath {
-	my ($self, $name) = @_;
-	return $self->{tools}->{$name}->GetPath();
+	my ($self, $id) = @_;
+	return $self->{tools}->{$id}->GetPath();
 }
 
 sub GetToolImage {
-	my ($self, $name) = @_;
-	return $self->{tools}->{$name}->GetImage();
+	my ($self, $id) = @_;
+	return $self->{tools}->{$id}->GetImage();
 }
 
 sub GetToolSubcommandsString {
-	my ($self, $name) = @_;
-	return $self->{tools}->{$name}->GetSubcommandsString();
+	my ($self, $id) = @_;
+	return $self->{tools}->{$id}->GetSubcommandsString();
 }
 
 sub GetToolParameterString {
-	my ($self, $name) = @_;
-	return $self->{tools}->{$name}->GetParameterString();
+	my ($self, $id) = @_;
+	return $self->{tools}->{$id}->GetParameterString();
 }
 
-sub GetToolMemory {
-	my ($self, $name) = @_;
-	return $self->{tools}->{$name}->GetMemory();
+sub GetToolCPU {
+	my ($self, $id) = @_;
+	return $self->{tools}->{$id}->GetCPU();
 }
+
+
+sub GetToolMemory {
+	my ($self, $id) = @_;
+	return $self->{tools}->{$id}->GetMemory();
+}
+
+
 
 ## Get largest memory
 sub GetLargestMemory {
-	my @memories = @_;
+	my $self = shift;
+	my @tools_id = @_;
+
 	my $largest_mem = 0;
-	foreach my $mem (@memories) {
+	foreach my $id (@tools_id) {
+		my $mem = $self->{tools}->{$id}->{memory};
 		if ($mem =~ /(\d+\.\d+)([G|g|M|m])/) {
 			my $temp = $1;
 			$temp = $temp / 1000 if ($2 eq "M" | $2 eq "m");
@@ -136,24 +145,23 @@ sub GetLargestMemory {
 			$largest_mem = $temp if ($temp > $largest_mem);
 		}
 		else {
-		    	print STDERR "memory format error!";
+		    	print STDERR "memory format error!\n";
 		}
 	}
-
 	return "$largest_mem"."G";
 }
 
-## Get largest cpu
+## Get Larget cpu of some tools
 sub GetLargestCPU {
-	my @cpu_array = @_;
+	my $self = shift;
+	my @tools_id = @_;
 	my $largest_cpu = 1;
-	foreach my $cpu (@cpu_array) {
+	foreach my $id (@tools_id) {
+		my $cpu = $self->{tools}->{$id}->{cpu};
 		$largest_cpu = $cpu if ($cpu > $largest_cpu);
 	}
 	return $largest_cpu;
 }
-
-
 
 ## Get workflow's parameter value with specified key
 sub GetParameterValue {
@@ -163,8 +171,8 @@ sub GetParameterValue {
 
 
 sub ToolExists {
-	my ($self, $name) = @_;
-	if (exists $self->{tools}->{$name}) {
+	my ($self, $id) = @_;
+	if (exists $self->{tools}->{$id}) {
 		return 1;
 	}
 	else {

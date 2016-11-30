@@ -140,6 +140,12 @@ sub GetImage {
 	return $self->{image};
 }
 
+sub GetCPU {
+	my $self = shift;
+	return $self->{cpu};
+}
+
+
 sub GetMemory {
 	my $self = shift;
 	return $self->{memory};

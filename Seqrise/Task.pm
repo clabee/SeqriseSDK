@@ -2,8 +2,6 @@ package Seqrise::Task;
 #!/usr/bin/perl -w
 use strict;
 use Carp;
-use lib "/clabeedata/usr/pell/git/CBWorkflow";
-use lib "/Users/mac/Projects/git/CBWorkflow";
 use Graph::Easy;
 use Graph::Easy::Edge;
 use File::Basename;

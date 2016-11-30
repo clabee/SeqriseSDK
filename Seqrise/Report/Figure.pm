@@ -2,8 +2,6 @@ package Seqrise::Report::Figure;
 #!/usr/bin/perl -w
 use strict;
 use Carp;
-use lib "/clabeedata/usr/pell/git/CBWorkflow";
-use lib "/Users/mac/Projects/git/CBWorkflow";
 use Seqrise::FileSet;
 use JSON;
 
