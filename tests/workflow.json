@@ -40,78 +40,6 @@
           "type" : "int",
           "separator": "space",
           "value" : 500
-        },
-        {
-          "id": "bwa_sampe_para_prefix_generated_by_the_system",
-          "option": null,
-          "separator" : null,
-          "type": "file",
-          "repeat": {
-            "value" : false
-          },
-          "secondary_files": [
-            "^.dict",
-            ".amb",
-            ".ann",
-            ".bwt",
-            ".fai",
-            ".pac",
-            ".sa"
-          ]
-        },
-        {
-          "id" : "bwa_sampe_para_sai_generated_by_the_system",
-          "option": null,
-          "type": "file",
-          "repeat": {
-            "value" : true,
-            "group_by_metadata" : [
-              "Sample ID",
-              "Library ID",
-              "Flowcell ID",
-              "Lane"
-            ],
-            "sort_by_metadata" : [
-              "Paired-end"
-            ],
-            "min_times" : 2,
-            "max_times" : 2
-          },
-          "secondary_files" : [],
-          "metadata" : [
-            "Sample ID",
-            "Library ID",
-            "Flowcell ID",
-            "Lane",
-            "Paired-end"
-          ]
-        },
-        {
-          "id" : "bwa_sampe_para_fastq_generated_by_the_system",
-          "option": null,
-          "type": "file",
-          "repeat": {
-            "value" : true,
-            "group_by_metadata" : [
-              "Sample ID",
-              "Library ID",
-              "Flowcell ID",
-              "Lane"
-            ],
-            "sort_by_metadata" : [
-              "Paired-end"
-            ],
-            "min_times" : 2,
-            "max_times" : 2
-          },
-          "secondary_files" : [],
-          "metadata" : [
-            "Sample ID",
-            "Library ID",
-            "Flowcell ID",
-            "Lane",
-            "Paired-end"
-          ]
         }
       ]
     },
@@ -123,7 +51,7 @@
       "subcommands": ["java", "-Xmx4g", "-jar", "/opt/GenomeAnalysisTK.jar", "-T", "IndelRealign"],
       "parameters" : []
     }
-    },
+  },
   "inputs" : {
     "input_fastq_generated_by_the_system": {
       "name": "input fastq",
