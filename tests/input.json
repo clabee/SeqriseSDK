@@ -1,0 +1,38 @@
+{
+  "inputs" : {
+    "input_fastq_generated_by_the_system" : [
+      {
+        "path" : "\/clabeedata\/database\/SEQC_RawSeqData\/A_1\/SRX302130\/SRR896663\/SRR896663_1.fastq.gz",
+        "metadata": {
+          "Sample ID": "A_1",
+          "Library ID": "1",
+          "Flowcell ID": "AC0AYTACXX",
+          "Lane": 1,
+          "Paired-end": 1
+        }
+      },
+      {
+        "path": "\/clabeedata\/database\/SEQC_RawSeqData\/A_1\/SRX302130\/SRR896663\/SRR896663_2.fastq.gz",
+        "metadata": {
+          "Sample ID": "A_1",
+          "Library ID": "1",
+          "Flowcell ID": "AC0AYTACXX",
+          "Lane": 1,
+          "Paired-end": 2,
+          "Desc": null
+        }
+      }
+    ],
+    "input_reference_generated_by_the_system" : {
+      "path" : "/clabeedata/hg19/hg19.fasta"
+    },
+    "input_bed_id_generated_by_the_system" : {
+      "path" : "/clabeedata/bed/Agilent_59M.bed"
+    }
+  },
+  "parameters" : {
+    "realign_id_generate_by_system" : true,
+    "reference_argument_id_generated_by_the_system": "hg19",
+    "bwa_aln_para_I_generated_by_the_system" : true
+  }
+}

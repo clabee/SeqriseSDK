@@ -1,0 +1,168 @@
+{
+  "id" : "atki3h38k3howj3qahi88lhdi3pjh",
+  "name" : "Whole Exome Sequencing Analysis Pipeline",
+  "description" : "This is whole exome sequencing analysis pipeline",
+  "report_tool_id": null,
+  "tools" : {
+    "bwa_aln_id_generated_by_the_system" : {
+      "cpu" : 1,
+      "memory" : "5G",
+      "runner" : "docker",
+      "image" : "lh3lh3/bwa",
+      "subcommands" : ["aln"],
+      "parameters" : [
+        {
+          "id": "bwa_aln_para_o_generated_by_the_system",
+          "option": "-o",
+          "type": "int",
+          "separator": "space",
+          "value": 1
+        },
+        {
+          "id": "bwa_aln_para_I_generated_by_the_system",
+          "option": "-I",
+          "type": "boolean",
+          "separator": "space",
+          "value": false
+        }
+      ]
+    },
+    "bwa_sampe_id_generated_by_the_system" : {
+      "cpu" : 1,
+      "memory" : "5G",
+      "runner" : "docker",
+      "image" : "lh3lh3/bwa",
+      "subcommands" : ["sampe"],
+      "parameters" : [
+        {
+          "id" : "bwa_sampe_para_a_generated_by_the_system",
+          "option" : "-a",
+          "type" : "int",
+          "separator": "space",
+          "value" : 500
+        },
+        {
+          "id": "bwa_sampe_para_prefix_generated_by_the_system",
+          "option": null,
+          "separator" : null,
+          "type": "file",
+          "repeat": {
+            "value" : false
+          },
+          "secondary_files": [
+            "^.dict",
+            ".amb",
+            ".ann",
+            ".bwt",
+            ".fai",
+            ".pac",
+            ".sa"
+          ]
+        },
+        {
+          "id" : "bwa_sampe_para_sai_generated_by_the_system",
+          "option": null,
+          "type": "file",
+          "repeat": {
+            "value" : true,
+            "group_by_metadata" : [
+              "Sample ID",
+              "Library ID",
+              "Flowcell ID",
+              "Lane"
+            ],
+            "sort_by_metadata" : [
+              "Paired-end"
+            ],
+            "min_times" : 2,
+            "max_times" : 2
+          },
+          "secondary_files" : [],
+          "metadata" : [
+            "Sample ID",
+            "Library ID",
+            "Flowcell ID",
+            "Lane",
+            "Paired-end"
+          ]
+        },
+        {
+          "id" : "bwa_sampe_para_fastq_generated_by_the_system",
+          "option": null,
+          "type": "file",
+          "repeat": {
+            "value" : true,
+            "group_by_metadata" : [
+              "Sample ID",
+              "Library ID",
+              "Flowcell ID",
+              "Lane"
+            ],
+            "sort_by_metadata" : [
+              "Paired-end"
+            ],
+            "min_times" : 2,
+            "max_times" : 2
+          },
+          "secondary_files" : [],
+          "metadata" : [
+            "Sample ID",
+            "Library ID",
+            "Flowcell ID",
+            "Lane",
+            "Paired-end"
+          ]
+        }
+      ]
+    },
+    "gatk_realigner_id_generated_by_the_system" : {
+      "cpu" : 1,
+      "memory" : "5G",
+      "runner" : "docker",
+      "image" : "gcatio/gatk",
+      "subcommands": ["java", "-Xmx4g", "-jar", "/opt/GenomeAnalysisTK.jar", "-T", "IndelRealign"],
+      "parameters" : []
+    }
+    },
+  "inputs" : {
+    "input_fastq_generated_by_the_system": {
+      "name": "input fastq",
+      "metadata" : [
+        "Sample ID",
+        "Library ID",
+        "Flowcell ID",
+        "Lane",
+        "Paired-end"
+      ],
+      "array" : {
+        "value" : true
+      },
+      "required" : true
+    },
+    "input_reference_generated_by_the_system": {
+      "name": "input_reference",
+      "metadata" : [],
+      "array" : {
+        "value" : false
+      },
+      "required" : true
+    },
+    "input_bed_id_generated_by_the_system" : {
+      "name" : "input bed file",
+      "array" : {
+        "value" : false
+      },
+      "required" : true
+    }
+  },
+  "parameters" : {
+    "realign_id_generate_by_system" : {
+      "name" : "realign",
+      "value" : true
+    },
+    "reference_argument_id_generated_by_the_system": {
+      "name": "genome version",
+      "value": "hg19"
+    }
+  }
+}
