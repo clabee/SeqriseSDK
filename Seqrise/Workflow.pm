@@ -279,8 +279,17 @@ sub __add_inputs__ {
 				else {
 					$errs++;
 					carp "Error: input $input_id should be file object\n";
-
 				}
+			}
+		}
+		elsif ($workflow_hash->{$input_id}->{value}) {
+			if (not $workflow_hash->{$input_id}->{array}->{value}) {
+				my $file = Seqrise::File->new(path => $workflow_hash->{$input_id}->{value});
+				$self->{inputs}->{$input_id} = $file;
+			}
+			else {
+				$errs ++;
+				carp "Error: default value not support for not array inputs\n";
 
 			}
 		}
