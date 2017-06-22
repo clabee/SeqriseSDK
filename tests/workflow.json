@@ -73,7 +73,8 @@
       "array" : {
         "value" : false
       },
-      "required" : true
+      "required" : true,
+	  "default" : "/path/to/hg19.fa"
     },
     "input_bed_id_generated_by_the_system" : {
       "name" : "input bed file",
