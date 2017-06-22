@@ -279,8 +279,17 @@ sub __add_inputs__ {
 				else {
 					$errs++;
 					carp "Error: input $input_id should be file object\n";
-
 				}
+			}
+		}
+		elsif ($workflow_hash->{$input_id}->{value}) {
+			if (not $workflow_hash->{$input_id}->{array}->{value}) {
+				my $file = Seqrise::File->new(path => $workflow_hash->{$input_id}->{value});
+				$self->{inputs}->{$input_id} = $file;
+			}
+			else {
+				$errs ++;
+				carp "Error: default value not support for not array inputs\n";
 
 			}
 		}
@@ -293,13 +302,16 @@ sub __add_inputs__ {
 }
 
 sub __add_tools__ {
-	my ($self, $workflow_hash, $input_parameters_hash) = @_;
-	foreach my $key (keys %{$workflow_hash}) {
-		my $tool = Seqrise::Tool->new('runner' => $workflow_hash->{$key}->{runner}, 'name' => $key, 'image' => $workflow_hash->{$key}->{image}, 'subcommands' => $workflow_hash->{$key}->{subcommands}, 'cpu' => $workflow_hash->{$key}->{cpu}, 'memory' => $workflow_hash->{$key}->{memory});
-		$tool->AddParameters($workflow_hash->{$key}->{parameters});
+	my ($self, $tool_hash, $input_parameters_hash) = @_;
+	foreach my $key (keys %{$tool_hash}) {
+		my $tool = Seqrise::Tool->new('runner' => $tool_hash->{$key}->{runner}, 'name' => $key, 'image' => $tool_hash->{$key}->{image}, 'subcommands' => $tool_hash->{$key}->{subcommands}, 'cpu' => $tool_hash->{$key}->{cpu}, 'memory' => $tool_hash->{$key}->{memory});
+		$tool->AddParameters($tool_hash->{$key}->{parameters});
 		foreach my $parameter (@{$tool->{parameters}}) {
 			if (exists $input_parameters_hash->{$parameter->{id}}) {
-				$parameter->{value} = $parameter->{$parameter->{id}};
+				$parameter->{value} = $input_parameters_hash->{$parameter->{id}};
+			}
+			elsif (not exists $parameter->{value}) {
+				carp "Error: value of parameter `$parameter->{id}` is required\n";
 			}
 		}
 		$self->{tools}->{$key} = $tool;
@@ -311,7 +323,7 @@ sub __add_parameters__ {
 	$self->{parameters} = $workflow_hash;
 	foreach my $parameter_id (keys %{$workflow_hash}) {
 		if (exists $input_parameters_hash->{$parameter_id}) {
-			$self->{parameters}->{$parameter_id} = $input_parameters_hash->{$parameter_id};
+			$self->{parameters}->{$parameter_id}->{value} = $input_parameters_hash->{$parameter_id};
 		}
 	}
 }
