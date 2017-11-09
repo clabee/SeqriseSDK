@@ -32,6 +32,17 @@ sub new {
 	return $self;
 }
 
+sub MetadataExists {
+	my $self = shift;
+	my $metadata_key = shift;
+	if (exists($self->{metadata}->{$metadata_key})) {
+		return 1;
+	}
+	else {
+		return 0;
+	}
+}
+
 sub AddMetadata {
 	my $self = shift;
 ##  a HASH reference
