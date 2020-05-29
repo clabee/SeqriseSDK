@@ -47,8 +47,11 @@ sub new {
 	if (defined ($v = delete $params{'name'})) {
 		$self->{name} = $params{'name'};
 	}
-
-	if ($input_hash->{outdir}) {
+	
+	if (defined ($v = delete $params{outdir})) {
+		$self->{outdir} = $v;
+	}
+	elsif ($input_hash->{outdir}) {
 		$self->{outdir} = $input_hash->{outdir};
 	}
 	else {
@@ -69,15 +72,26 @@ sub new {
 		$errs++;
 	}
 	return undef if $errs;
-
-	$self->__add_tools__($workflow_hash->{tools}, $input_hash->{parameters});
+	
+	if (exists $input_hash->{para}) {
+		$self->__add_tools__($workflow_hash->{tools}, $input_hash->{para});
+	}
+	else {
+		$self->__add_tools__($workflow_hash->{tools}, $input_hash->{parameters});
+	}
 
 
 	$errs = $self->__add_inputs__(${$workflow_hash}{inputs}, $input_hash->{inputs});
 
 	return undef if $errs;
 	
-	$self->__add_parameters__(${$workflow_hash}{parameters}, $input_hash->{parameters});
+	if (exists $input_hash->{para}) {
+		$self->__add_parameters__(${$workflow_hash}{parameters}, $input_hash->{para});
+	}
+	else {
+		$self->__add_parameters__(${$workflow_hash}{parameters}, $input_hash->{parameters});
+	}
+
 
 	return $self;
 }
